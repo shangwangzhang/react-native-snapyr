@@ -1,19 +1,25 @@
 #import "Snapyr.h"
+#import <Snapyr/Snapyr.h>
 
 @implementation Snapyr
 
 RCT_EXPORT_MODULE()
 
-// Example method
-// See // https://reactnative.dev/docs/native-modules-ios
-RCT_REMAP_METHOD(multiply,
-                 multiplyWithA:(nonnull NSNumber*)a withB:(nonnull NSNumber*)b
-                 withResolver:(RCTPromiseResolveBlock)resolve
-                 withRejecter:(RCTPromiseRejectBlock)reject)
+RCT_EXPORT_METHOD(identify:(NSString *)identify traits:(NSDictionary *)traits)
 {
-  NSNumber *result = @([a floatValue] * [b floatValue]);
+  if (identify) {
+    [SnapyrSDK sharedSDK] identify:identify traits:traits];
+  }
+}
 
-  resolve(result);
+RCT_EXPORT_METHOD(track:(NSString *)eventName properties:(NSDictionary *)properties)
+{
+  [[SnapyrSDK sharedSDK] track:eventName properties:properties];
+}
+
+RCT_EXPORT_METHOD(reset)
+{
+  [[SnapyrSDK sharedSDK] reset];
 }
 
 @end

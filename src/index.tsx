@@ -1,7 +1,9 @@
 import { NativeModules } from 'react-native';
 
 type SnapyrType = {
-  multiply(a: number, b: number): Promise<number>;
+  identify(identify: string, traits: Record<string, string>): void;
+  track(eventName: string, properties: Record<string, string>): void;
+  reset(): void;
 };
 
 const { Snapyr } = NativeModules;

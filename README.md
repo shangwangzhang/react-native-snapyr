@@ -15,7 +15,7 @@ import Snapyr from "react-native-snapyr";
 
 // ...
 
-const result = await Snapyr.multiply(3, 7);
+Snapyr.identify('user id', {email: 'email', name: 'name'});
 ```
 
 ## Contributing

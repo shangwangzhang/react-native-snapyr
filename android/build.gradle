@@ -53,6 +53,8 @@ repositories {
 }
 
 dependencies {
+    implementation 'com.snapyr.sdk.android:snapyr:+'
+
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
 }

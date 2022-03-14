@@ -6,7 +6,13 @@ import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.ReadableMapKeySetIterator;
 import com.facebook.react.module.annotations.ReactModule;
+
+import com.snapyr.sdk.Properties;
+import com.snapyr.sdk.Snapyr;
+import com.snapyr.sdk.Traits;
 
 @ReactModule(name = SnapyrModule.NAME)
 public class SnapyrModule extends ReactContextBaseJavaModule {
@@ -22,13 +28,38 @@ public class SnapyrModule extends ReactContextBaseJavaModule {
         return NAME;
     }
 
-
-    // Example method
-    // See https://reactnative.dev/docs/native-modules-android
     @ReactMethod
-    public void multiply(int a, int b, Promise promise) {
-        promise.resolve(a * b);
+    public void identify(final String identifyValue, final ReadableMap traits) {
+        ReadableMapKeySetIterator iterator = traits.keySetIterator();
+        Traits traitsValues = new Traits();
+
+        while (iterator.hasNextKey()) {
+            String key = iterator.nextKey();
+            String value = traits.getString(key);
+            traitsValues.putValue(key, value);
+        }
+
+        if (identifyValue) {
+            Snapyr.with(getReactApplicationContext()).identify(identifyValue, traitsValues, null);
+        }
     }
 
-    public static native int nativeMultiply(int a, int b);
+    @ReactMethod
+    public void track(final String eventName, final ReadableMap properties) {
+        ReadableMapKeySetIterator iterator = properties.keySetIterator();
+        Properties propertiesValues = new Properties();
+
+        while (iterator.hasNextKey()) {
+            String key = iterator.nextKey();
+            String value = properties.getString(key);
+            propertiesValues.putValue(key, value);
+        }
+
+        Snapyr.with(getReactApplicationContext()).track(eventName, propertiesValues);
+    }
+
+    @ReactMethod
+    public void reset() {
+        Snapyr.with(getReactApplicationContext()).reset();
+    }
 }
