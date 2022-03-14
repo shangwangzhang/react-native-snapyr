@@ -39,7 +39,7 @@ public class SnapyrModule extends ReactContextBaseJavaModule {
             traitsValues.putValue(key, value);
         }
 
-        if (identifyValue) {
+        if (identifyValue != null && !identifyValue.isEmpty()) {
             Snapyr.with(getReactApplicationContext()).identify(identifyValue, traitsValues, null);
         }
     }
