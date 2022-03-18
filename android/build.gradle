@@ -53,8 +53,8 @@ repositories {
 }
 
 dependencies {
-    implementation fileTree(dir: "libs", include: ["*.jar", "*.aar"])
     // implementation 'com.snapyr.sdk.android:snapyr:+'
+    compileOnly files('libs/snapyr-release.aar')
 
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
