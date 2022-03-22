@@ -14,7 +14,9 @@ RCT_EXPORT_METHOD(identify:(NSString *)identify traits:(NSDictionary *)traits)
 
 RCT_EXPORT_METHOD(track:(NSString *)eventName properties:(NSDictionary *)properties)
 {
-  [[SnapyrSDK sharedSDK] track:eventName properties:properties];
+  if (eventName) {
+    [[SnapyrSDK sharedSDK] track:eventName properties:properties];
+  }
 }
 
 RCT_EXPORT_METHOD(reset)

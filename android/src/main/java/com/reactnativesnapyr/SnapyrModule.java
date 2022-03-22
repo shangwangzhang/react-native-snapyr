@@ -30,13 +30,17 @@ public class SnapyrModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void identify(final String identifyValue, final ReadableMap traits) {
-        ReadableMapKeySetIterator iterator = traits.keySetIterator();
-        Traits traitsValues = new Traits();
+        Traits traitsValues = null;
 
-        while (iterator.hasNextKey()) {
-            String key = iterator.nextKey();
-            String value = traits.getString(key);
-            traitsValues.putValue(key, value);
+        if (traits != null) {
+            ReadableMapKeySetIterator iterator = traits.keySetIterator();
+            traitsValues = new Traits();
+
+            while (iterator.hasNextKey()) {
+                String key = iterator.nextKey();
+                String value = traits.getString(key);
+                traitsValues.putValue(key, value);
+            }
         }
 
         if (identifyValue != null && !identifyValue.isEmpty()) {
@@ -46,16 +50,22 @@ public class SnapyrModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void track(final String eventName, final ReadableMap properties) {
-        ReadableMapKeySetIterator iterator = properties.keySetIterator();
-        Properties propertiesValues = new Properties();
+        Properties propertiesValues = null;
 
-        while (iterator.hasNextKey()) {
-            String key = iterator.nextKey();
-            String value = properties.getString(key);
-            propertiesValues.putValue(key, value);
+        if (properties != null) {
+            ReadableMapKeySetIterator iterator = properties.keySetIterator();
+            propertiesValues = new Properties();
+
+            while (iterator.hasNextKey()) {
+                String key = iterator.nextKey();
+                String value = properties.getString(key);
+                propertiesValues.putValue(key, value);
+            }
         }
 
-        Snapyr.with(getReactApplicationContext()).track(eventName, propertiesValues);
+        if (eventName != null && !eventName.isEmpty()) {
+            Snapyr.with(getReactApplicationContext()).track(eventName, propertiesValues);
+        }
     }
 
     @ReactMethod
